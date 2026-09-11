@@ -128,3 +128,163 @@ export async function signOutAction() {
   await supabase.auth.signOut();
   redirect("/admin/login");
 }
+
+// ---------------------------------------------------------------------
+// TOKOH KEMUT
+// ---------------------------------------------------------------------
+
+function buildTokohPayload(formData) {
+  return {
+    name: formData.get("name")?.toString().trim(),
+    role: formData.get("role")?.toString().trim() || null,
+    photo_url: formData.get("photo_url")?.toString().trim() || null,
+    short_description: formData.get("short_description")?.toString().trim() || null,
+    full_bio: formData.get("full_bio")?.toString().trim() || null,
+  };
+}
+
+export async function createTokohAction(formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildTokohPayload(formData);
+  let slug = slugify(formData.get("slug")?.toString() || payload.name || "");
+  if (!slug) slug = `tokoh-${Date.now()}`;
+
+  const { error } = await supabase.from("tokoh").insert({ ...payload, slug });
+
+  if (error) {
+    redirect(`/admin/tokoh/baru?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/tokoh");
+  revalidatePath("/tokoh");
+  revalidatePath("/");
+  redirect("/admin/tokoh");
+}
+
+export async function updateTokohAction(id, formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildTokohPayload(formData);
+  const slug = slugify(formData.get("slug")?.toString() || payload.name || "");
+
+  const { error } = await supabase.from("tokoh").update({ ...payload, slug }).eq("id", id);
+
+  if (error) {
+    redirect(`/admin/tokoh/${id}?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/tokoh");
+  revalidatePath(`/tokoh/${slug}`);
+  revalidatePath("/tokoh");
+  revalidatePath("/");
+  redirect("/admin/tokoh");
+}
+
+export async function deleteTokohAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("tokoh").delete().eq("id", id);
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/admin/tokoh");
+  revalidatePath("/tokoh");
+  revalidatePath("/");
+}
+
+// ---------------------------------------------------------------------
+// VIDEO
+// ---------------------------------------------------------------------
+
+function buildVideoPayload(formData) {
+  return {
+    title: formData.get("title")?.toString().trim(),
+    video_url: formData.get("video_url")?.toString().trim(),
+    thumbnail_url: formData.get("thumbnail_url")?.toString().trim() || null,
+    category: formData.get("category")?.toString().trim() || null,
+    duration_seconds: Number(formData.get("duration_seconds")) || null,
+    is_featured: formData.get("is_featured") === "on",
+  };
+}
+
+export async function createVideoAction(formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildVideoPayload(formData);
+
+  const { error } = await supabase.from("videos").insert({
+    ...payload,
+    published_at: new Date().toISOString(),
+  });
+
+  if (error) {
+    redirect(`/admin/video/baru?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/video");
+  revalidatePath("/kategori/video");
+  revalidatePath("/");
+  redirect("/admin/video");
+}
+
+export async function updateVideoAction(id, formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildVideoPayload(formData);
+
+  const { error } = await supabase.from("videos").update(payload).eq("id", id);
+
+  if (error) {
+    redirect(`/admin/video/${id}?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/video");
+  revalidatePath("/kategori/video");
+  revalidatePath("/");
+  redirect("/admin/video");
+}
+
+export async function deleteVideoAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("videos").delete().eq("id", id);
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/admin/video");
+  revalidatePath("/kategori/video");
+  revalidatePath("/");
+}

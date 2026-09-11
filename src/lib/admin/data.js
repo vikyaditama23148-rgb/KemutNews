@@ -38,6 +38,52 @@ export async function getCategoriesForAdmin() {
   return data || [];
 }
 
+export async function getAdminTokohList() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tokoh")
+    .select("id, slug, name, role, photo_url, short_description")
+    .order("created_at", { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAdminTokohById(id) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tokoh")
+    .select("id, slug, name, role, photo_url, short_description, full_bio")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function getAdminVideoList() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("videos")
+    .select("id, title, thumbnail_url, video_url, category, duration_seconds, is_featured, published_at")
+    .order("published_at", { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAdminVideoById(id) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("videos")
+    .select("id, title, thumbnail_url, video_url, category, duration_seconds, is_featured")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function getAdminStats() {
   const supabase = createClient();
   const [articles, tokoh, gallery, videos, agenda] = await Promise.all([

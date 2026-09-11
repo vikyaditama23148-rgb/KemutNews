@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Newspaper, ExternalLink } from "lucide-react";
+import { LayoutDashboard, Newspaper, Users, Video, ExternalLink } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 const NAV = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Artikel", href: "/admin/artikel", icon: Newspaper },
+  { label: "Tokoh KEMUT", href: "/admin/tokoh", icon: Users },
+  { label: "Video", href: "/admin/video", icon: Video },
 ];
 
 export default function AdminSidebar({ userEmail }) {
