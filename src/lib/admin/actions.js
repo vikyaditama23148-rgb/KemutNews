@@ -367,3 +367,83 @@ export async function deleteGalleryAction(id) {
   revalidatePath("/galeri");
   revalidatePath("/");
 }
+
+// ---------------------------------------------------------------------
+// AGENDA KEMUT
+// ---------------------------------------------------------------------
+
+function buildAgendaPayload(formData) {
+  return {
+    title: formData.get("title")?.toString().trim(),
+    event_date: formData.get("event_date")?.toString() || null,
+    event_time: formData.get("event_time")?.toString().trim() || null,
+    location: formData.get("location")?.toString().trim() || null,
+    description: formData.get("description")?.toString().trim() || null,
+  };
+}
+
+export async function createAgendaAction(formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildAgendaPayload(formData);
+
+  if (!payload.event_date) {
+    redirect(`/admin/agenda/baru?error=${encodeURIComponent("Tanggal kegiatan wajib diisi.")}`);
+  }
+
+  const { error } = await supabase.from("agenda_items").insert(payload);
+
+  if (error) {
+    redirect(`/admin/agenda/baru?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/agenda");
+  revalidatePath("/agenda");
+  revalidatePath("/");
+  redirect("/admin/agenda");
+}
+
+export async function updateAgendaAction(id, formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildAgendaPayload(formData);
+
+  const { error } = await supabase.from("agenda_items").update(payload).eq("id", id);
+
+  if (error) {
+    redirect(`/admin/agenda/${id}?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/agenda");
+  revalidatePath("/agenda");
+  revalidatePath("/");
+  redirect("/admin/agenda");
+}
+
+export async function deleteAgendaAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("agenda_items").delete().eq("id", id);
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/admin/agenda");
+  revalidatePath("/agenda");
+  revalidatePath("/");
+}

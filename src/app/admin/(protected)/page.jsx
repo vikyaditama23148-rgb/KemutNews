@@ -44,10 +44,10 @@ export default async function AdminDashboardPage() {
       <div className="mt-10 rounded-card border border-cream-line bg-white p-6">
         <h2 className="font-display text-lg font-bold text-ink">Kelola Konten</h2>
         <p className="mt-1 text-sm text-stone">
-          Manajemen penuh (tambah/ubah/hapus) kini tersedia untuk <strong>Artikel</strong>,{" "}
-          <strong>Tokoh KEMUT</strong>, <strong>Video</strong>, dan <strong>Galeri</strong>. Agenda
-          masih dikelola lewat Supabase Table Editor atau <code>supabase/seed.sql</code> — silakan
-          minta pengembangan lanjutan bila ingin form khusus untuk itu juga.
+          Semua jenis konten kini punya manajemen penuh (tambah/ubah/hapus) di Admin Panel:{" "}
+          <strong>Artikel</strong>, <strong>Tokoh KEMUT</strong>, <strong>Video</strong>,{" "}
+          <strong>Galeri</strong>, dan <strong>Agenda</strong>. Tidak perlu lagi membuka Supabase
+          Table Editor untuk pengelolaan sehari-hari.
         </p>
       </div>
     </div>

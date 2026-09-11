@@ -107,6 +107,29 @@ export async function getAdminGalleryById(id) {
   return data;
 }
 
+export async function getAdminAgendaList() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("agenda_items")
+    .select("id, title, event_date, event_time, location, description")
+    .order("event_date", { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAdminAgendaById(id) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("agenda_items")
+    .select("id, title, event_date, event_time, location, description")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function getAdminStats() {
   const supabase = createClient();
   const [articles, tokoh, gallery, videos, agenda] = await Promise.all([
