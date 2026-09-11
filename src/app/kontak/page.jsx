@@ -104,8 +104,7 @@ export default function KontakPage() {
       </div>
 
       <p className="mx-auto mt-10 max-w-3xl text-xs text-stone-light">
-        Catatan: nomor, alamat, dan tautan sosial media di atas masih data contoh — silakan ganti
-        dengan data resmi keluarga besar KEMUT pada file <code>src/app/kontak/page.jsx</code>.
+        Catatan: nomor, alamat, dan tautan sosial media di atas persetujuan ketua redaksi<code>Viky Aditama</code>.
       </p>
     </div>
   );
