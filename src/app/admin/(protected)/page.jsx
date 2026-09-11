@@ -44,10 +44,10 @@ export default async function AdminDashboardPage() {
       <div className="mt-10 rounded-card border border-cream-line bg-white p-6">
         <h2 className="font-display text-lg font-bold text-ink">Kelola Konten</h2>
         <p className="mt-1 text-sm text-stone">
-          Saat ini manajemen penuh (tambah/ubah/hapus) tersedia untuk <strong>Artikel</strong>,{" "}
-          <strong>Tokoh KEMUT</strong>, dan <strong>Video</strong> (link + thumbnail). Galeri dan
-          Agenda masih dikelola lewat Supabase Table Editor atau <code>supabase/seed.sql</code> —
-          silakan minta pengembangan lanjutan bila ingin form khusus untuk itu juga.
+          Manajemen penuh (tambah/ubah/hapus) kini tersedia untuk <strong>Artikel</strong>,{" "}
+          <strong>Tokoh KEMUT</strong>, <strong>Video</strong>, dan <strong>Galeri</strong>. Agenda
+          masih dikelola lewat Supabase Table Editor atau <code>supabase/seed.sql</code> — silakan
+          minta pengembangan lanjutan bila ingin form khusus untuk itu juga.
         </p>
       </div>
     </div>

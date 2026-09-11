@@ -288,3 +288,82 @@ export async function deleteVideoAction(id) {
   revalidatePath("/kategori/video");
   revalidatePath("/");
 }
+
+// ---------------------------------------------------------------------
+// GALERI (KEMUT Moments)
+// ---------------------------------------------------------------------
+
+function buildGalleryPayload(formData) {
+  return {
+    image_url: formData.get("image_url")?.toString().trim(),
+    caption: formData.get("caption")?.toString().trim() || null,
+    event_name: formData.get("event_name")?.toString().trim() || null,
+    taken_at: formData.get("taken_at")?.toString() || null,
+  };
+}
+
+export async function createGalleryAction(formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildGalleryPayload(formData);
+
+  if (!payload.image_url) {
+    redirect(`/admin/galeri/baru?error=${encodeURIComponent("Foto wajib diunggah terlebih dahulu.")}`);
+  }
+
+  const { error } = await supabase.from("gallery_items").insert(payload);
+
+  if (error) {
+    redirect(`/admin/galeri/baru?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/galeri");
+  revalidatePath("/galeri");
+  revalidatePath("/");
+  redirect("/admin/galeri");
+}
+
+export async function updateGalleryAction(id, formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildGalleryPayload(formData);
+
+  const { error } = await supabase.from("gallery_items").update(payload).eq("id", id);
+
+  if (error) {
+    redirect(`/admin/galeri/${id}?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/galeri");
+  revalidatePath("/galeri");
+  revalidatePath("/");
+  redirect("/admin/galeri");
+}
+
+export async function deleteGalleryAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("gallery_items").delete().eq("id", id);
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/admin/galeri");
+  revalidatePath("/galeri");
+  revalidatePath("/");
+}

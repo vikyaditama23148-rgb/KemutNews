@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Newspaper, Users, Video, ExternalLink } from "lucide-react";
+import { LayoutDashboard, Newspaper, Users, Video, Image as ImageIcon, ExternalLink } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 const NAV = [
@@ -10,6 +10,7 @@ const NAV = [
   { label: "Artikel", href: "/admin/artikel", icon: Newspaper },
   { label: "Tokoh KEMUT", href: "/admin/tokoh", icon: Users },
   { label: "Video", href: "/admin/video", icon: Video },
+  { label: "Galeri", href: "/admin/galeri", icon: ImageIcon },
 ];
 
 export default function AdminSidebar({ userEmail }) {

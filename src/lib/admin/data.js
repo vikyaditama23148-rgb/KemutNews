@@ -84,6 +84,29 @@ export async function getAdminVideoById(id) {
   return data;
 }
 
+export async function getAdminGalleryList() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("gallery_items")
+    .select("id, image_url, caption, event_name, taken_at")
+    .order("taken_at", { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAdminGalleryById(id) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("gallery_items")
+    .select("id, image_url, caption, event_name, taken_at")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function getAdminStats() {
   const supabase = createClient();
   const [articles, tokoh, gallery, videos, agenda] = await Promise.all([
