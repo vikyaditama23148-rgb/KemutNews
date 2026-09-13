@@ -25,48 +25,58 @@ const TEAM = [
 
 export default function RedaksiPage() {
   return (
-    <div className="container-editorial py-10 md:py-14">
-      <div className="mb-10 border-b border-cream-line pb-6">
-        <span className="eyebrow">Redaksi</span>
-        <h1 className="mt-2 font-display text-3xl font-bold text-ink md:text-[42px]">
+    <div className="mx-auto max-w-[1440px] px-4 py-6 md:px-8">
+      <nav className="mb-4 text-xs text-brand-secondary">
+        <span className="text-brand-ink">Beranda / Struktur Redaksi</span>
+      </nav>
+
+      <div className="mb-8 border-b-2 border-brand-primary pb-4">
+        <div className="mb-2 flex items-center gap-2">
+          <span className="h-2.5 w-2.5 bg-brand-primary" />
+          <span className="text-[11px] font-bold uppercase tracking-widest text-brand-primary">
+            Lembaga Pers Independen KEMUT Indonesia
+          </span>
+        </div>
+        <h1 className="font-headline text-[28px] font-black leading-tight tracking-tight text-brand-ink md:text-[38px]">
           Susunan Redaksi KEMUTNEWS
         </h1>
-        <p className="mt-2 max-w-xl text-stone">
-          Tim yang mengelola dan menjaga kualitas kabar keluarga besar KEMUT.
+        <p className="mt-2 max-w-2xl text-[14px] text-brand-secondary">
+          Tim yang mengelola dan menjaga kualitas kabar keluarga besar KEMUT dan berita terkini lainnya.
         </p>
       </div>
 
-      <div className="mx-auto max-w-3xl">
-        <div className="grid gap-6 sm:grid-cols-2">
-          {TEAM.map((person) => (
-            <div key={person.name} className="rounded-card border border-cream-line bg-white p-6">
-              <h3 className="font-display text-lg font-bold text-ink">{person.name}</h3>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-gold-deep">
-                {person.role}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-stone">{person.desc}</p>
-            </div>
-          ))}
-        </div>
+      <div className="grid gap-px bg-brand-outlineVariant/30 sm:grid-cols-3">
+        {TEAM.map((person) => (
+          <div key={person.name} className="bg-brand-surfaceLowest p-6">
+            <h3 className="font-headline text-lg font-bold text-brand-ink">{person.name}</h3>
+            <p className="mt-1 text-[11px] font-bold uppercase tracking-wide text-brand-primary">
+              {person.role}
+            </p>
+            <p className="mt-3 text-[13px] leading-relaxed text-brand-secondary">{person.desc}</p>
+          </div>
+        ))}
+      </div>
 
-        <div className="mt-12 rounded-card border border-cream-line bg-cream-soft p-7">
-          <h2 className="font-display text-lg font-bold text-ink">Ingin Berkontribusi?</h2>
-          <p className="mt-2 max-w-lg text-sm leading-relaxed text-stone">
+      <div className="mt-8 flex flex-col items-start justify-between gap-4 bg-brand-ink p-7 text-white sm:flex-row sm:items-center">
+        <div>
+          <h2 className="font-headline text-lg font-bold">Ingin Berkontribusi?</h2>
+          <p className="mt-2 max-w-lg text-sm leading-relaxed text-white/60">
             KEMUTNEWS terbuka untuk menerima cerita, foto, maupun laporan kegiatan dari seluruh
-            anggota keluarga besar KEMUT. Silakan hubungi redaksi melalui kontak di bawah ini.
+            anggota keluarga besar KEMUT.
           </p>
-          <a
-            href="mailto:redaksi@kemutnews.id"
-            className="mt-4 inline-flex items-center gap-2 rounded-card bg-ink px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-cream transition hover:bg-gold hover:text-ink"
-          >
-            <Mail size={15} /> kemutgroup@gmail.com
-          </a>
         </div>
-
-        <p className="mt-6 text-xs text-stone-light">
-          Catatan: susunan redaksi di atas bisa diperbarui sesuai kebutuhan — atas persetujuan ketua redaksi <code>Viky Aditama</code>.
-        </p>
+        <a
+          href="mailto:kemutgroup@gmail.com"
+          className="flex shrink-0 items-center gap-2 bg-brand-primary px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-brand-primaryContainer"
+        >
+          <Mail size={15} /> kemutgroup@gmail.com
+        </a>
       </div>
+
+      <p className="mt-6 text-xs text-brand-secondary/70">
+        Catatan: susunan redaksi di atas bisa diperbarui sesuai kebutuhan atas persetujuan Ketua Redaksi{" "}
+        <code>Viky Aditama</code>.
+      </p>
     </div>
   );
 }

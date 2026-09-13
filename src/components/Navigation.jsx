@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { label: "Cerita", href: "/kategori/cerita" },
   { label: "Opini", href: "/kategori/opini" },
   { label: "Galeri", href: "/galeri" },
-  { label: "Video", href: "/kategori/video" },
+  { label: "Video", href: "/video" },
   { label: "Agenda", href: "/agenda" },
 ];
 
