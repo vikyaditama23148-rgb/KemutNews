@@ -79,6 +79,7 @@ export async function getHomepageFeed() {
     .order("published_at", { ascending: false })
     .limit(24);
 
+  if (error) console.error("[KEMUTNEWS] getHomepageFeed error:", error);
   if (error || !data || data.length === 0) {
     return getHomepageFeed.__fallback();
   }
@@ -116,6 +117,7 @@ export async function getArticleBySlug(slug) {
     .select(ARTICLE_SELECT)
     .eq("slug", slug)
     .single();
+  if (error) console.error("[KEMUTNEWS] getArticleBySlug error:", error);
   if (error || !data) {
     const found = mockArticles.find((a) => a.slug === slug);
     return found ? normalizeMockArticle(found) : null;
@@ -133,6 +135,7 @@ export async function getArticlesByCategory(categorySlug) {
     .from("articles")
     .select(ARTICLE_SELECT)
     .order("published_at", { ascending: false });
+  if (error) console.error("[KEMUTNEWS] getArticlesByCategory error:", error);
   if (error || !data) {
     return mockArticles.filter((a) => a.category_slug === categorySlug).map(normalizeMockArticle);
   }
@@ -161,6 +164,7 @@ export async function searchArticles(query) {
     .or(`title.ilike.%${q}%,excerpt.ilike.%${q}%`)
     .order("published_at", { ascending: false });
 
+  if (error) console.error("[KEMUTNEWS] searchArticles error:", error);
   if (error || !data) {
     return mockArticles
       .filter((a) => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q))
@@ -181,6 +185,7 @@ export async function getRelatedArticles(categorySlug, excludeSlug, limit = 3) {
 export async function getCategories() {
   if (!isSupabaseConfigured) return mockCategories;
   const { data, error } = await supabase.from("categories").select("slug, name, description");
+  if (error) console.error("[KEMUTNEWS] getCategories error:", error);
   if (error || !data || data.length === 0) return mockCategories;
   return data;
 }
@@ -200,6 +205,7 @@ export async function getTokohList() {
     .from("tokoh")
     .select("slug, name, role, photo_url, short_description, full_bio")
     .order("created_at", { ascending: true });
+  if (error) console.error("[KEMUTNEWS] getTokohList error:", error);
   if (error || !data || data.length === 0) return mockTokoh;
   return data;
 }
@@ -211,6 +217,7 @@ export async function getTokohBySlug(slug) {
     .select("slug, name, role, photo_url, short_description, full_bio")
     .eq("slug", slug)
     .single();
+  if (error) console.error("[KEMUTNEWS] getTokohBySlug error:", error);
   if (error || !data) return mockTokoh.find((t) => t.slug === slug) || null;
   return data;
 }
@@ -225,6 +232,7 @@ export async function getGalleryItems() {
     .from("gallery_items")
     .select("image_url, caption, event_name, taken_at")
     .order("taken_at", { ascending: false });
+  if (error) console.error("[KEMUTNEWS] getGalleryItems error:", error);
   if (error || !data || data.length === 0) return mockGallery;
   return data;
 }
@@ -239,6 +247,7 @@ export async function getVideos() {
     .from("videos")
     .select("title, thumbnail_url, video_url, category, duration_seconds, is_featured, published_at")
     .order("published_at", { ascending: false });
+  if (error) console.error("[KEMUTNEWS] getVideos error:", error);
   if (error || !data || data.length === 0) return mockVideos;
   return data;
 }
@@ -253,6 +262,7 @@ export async function getAgendaItems() {
     .from("agenda_items")
     .select("title, event_date, event_time, location, description")
     .order("event_date", { ascending: true });
+  if (error) console.error("[KEMUTNEWS] getAgendaItems error:", error);
   if (error || !data || data.length === 0) return mockAgenda;
   return data;
 }

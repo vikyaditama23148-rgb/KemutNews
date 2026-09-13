@@ -8,16 +8,19 @@ export default function VideoSection({ videos }) {
   const rest = videos.filter((v) => v !== featured).slice(0, 3);
 
   return (
-    <section className="bg-cream-soft py-14 md:py-20">
-      <div className="container-editorial">
-        <SectionHeading title="KEMUT Video" href="/kategori/video" />
-        <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
-          <VideoCard video={featured} size="large" />
-          <div className="flex flex-col gap-6">
-            {rest.map((video, i) => (
-              <VideoCard key={`${video.title}-${i}`} video={video} size="small" />
-            ))}
-          </div>
+    <section className="w-full bg-brand-ink p-6">
+      <div className="mb-4 flex items-center gap-2">
+        <span className="h-2.5 w-2.5 bg-brand-primaryContainer" />
+        <h2 className="font-headline text-[18px] font-bold uppercase tracking-tight text-white">
+          KEMUT Video — Liputan Dokumenter
+        </h2>
+      </div>
+      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+        <VideoCard video={featured} size="large" />
+        <div className="flex flex-col gap-4">
+          {rest.map((video, i) => (
+            <VideoCard key={`${video.title}-${i}`} video={video} size="small" />
+          ))}
         </div>
       </div>
     </section>

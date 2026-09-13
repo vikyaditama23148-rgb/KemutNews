@@ -1,4 +1,4 @@
-import { Instagram, Youtube, Facebook } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 
 function todayLabel() {
   const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
@@ -12,24 +12,35 @@ function todayLabel() {
 
 export default function TopBar() {
   return (
-    <div className="hidden bg-ink text-cream/70 md:block">
-      <div className="container-editorial flex h-9 items-center justify-between text-[11px] tracking-wide">
-        <p className="uppercase text-cream/60">
-          KEMUTNEWS <span className="mx-2 text-gold/60">—</span> Media Informasi Keluarga Besar KEMUT
-        </p>
-        <div className="flex items-center gap-5">
-          <span>{todayLabel()}</span>
-          <div className="flex items-center gap-3 text-cream/50">
-            <a href="#" aria-label="Instagram KEMUTNEWS" className="transition hover:text-gold">
-              <Instagram size={13} strokeWidth={1.75} />
-            </a>
-            <a href="#" aria-label="Facebook KEMUTNEWS" className="transition hover:text-gold">
-              <Facebook size={13} strokeWidth={1.75} />
-            </a>
-            <a href="#" aria-label="Youtube KEMUTNEWS" className="transition hover:text-gold">
-              <Youtube size={13} strokeWidth={1.75} />
-            </a>
-          </div>
+    <div className="hidden h-9 w-full items-center justify-between bg-brand-surfaceLow px-4 text-[11px] font-bold uppercase tracking-wide text-brand-inkVariant md:flex md:px-8">
+      <div className="flex items-center gap-4">
+        <span className="flex items-center gap-1.5 font-semibold normal-case text-brand-ink">
+          {todayLabel()}
+        </span>
+        <span className="text-brand-outlineVariant">|</span>
+        <span className="tracking-wider">Edisi Digital KEMUT</span>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 pr-3 text-brand-inkVariant">
+          <a href="/tentang" className="normal-case transition-colors hover:text-brand-primary">
+            Tentang KEMUT
+          </a>
+          <span className="text-brand-outlineVariant">|</span>
+          <a href="/kontak" className="normal-case transition-colors hover:text-brand-primary">
+            Kontak Redaksi
+          </a>
+        </div>
+        <div className="flex items-center gap-2.5 border-l border-brand-outlineVariant pl-3">
+          <a href="#" aria-label="Facebook" className="transition-colors hover:text-brand-primary">
+            <Facebook size={13} strokeWidth={1.75} />
+          </a>
+          <a href="#" aria-label="Instagram" className="transition-colors hover:text-brand-primary">
+            <Instagram size={13} strokeWidth={1.75} />
+          </a>
+          <a href="#" aria-label="Youtube" className="transition-colors hover:text-brand-primary">
+            <Youtube size={13} strokeWidth={1.75} />
+          </a>
         </div>
       </div>
     </div>

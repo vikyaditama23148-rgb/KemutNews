@@ -26,15 +26,30 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroNews featured={featured} supporting={supporting} />
-      <NewsList articles={latest} />
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-8 px-4 py-6 md:px-8">
+        <HeroNews featured={featured} supporting={supporting} />
+        <NewsList articles={latest} />
+      </div>
+
       <TrendingList articles={mostRead} />
-      <CategorySection title="Kegiatan KEMUT" articles={kegiatan} href="/kategori/kegiatan" />
-      <CommunitySpotlight article={spotlight} />
-      <TokohSection tokoh={tokoh} />
-      <GallerySection items={gallery} />
-      <VideoSection videos={videos} />
-      <AgendaSection items={agenda} />
+
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-8 px-4 py-8 md:px-8">
+        <CategorySection title="Kegiatan KEMUT" articles={kegiatan} href="/kategori/kegiatan" />
+        <CommunitySpotlight article={spotlight} />
+        <TokohSection tokoh={tokoh} />
+        <GallerySection items={gallery} />
+      </div>
+
+      <div className="px-4 py-8 md:px-8">
+        <div className="mx-auto max-w-[1440px]">
+          <VideoSection videos={videos} />
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-[1440px] px-4 pb-8 md:px-8">
+        <AgendaSection items={agenda} />
+      </div>
+
       <NewsletterCTA />
     </>
   );

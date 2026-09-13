@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Youtube, Facebook } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 
 const COLUMNS = [
   {
@@ -11,7 +11,7 @@ const COLUMNS = [
     ],
   },
   {
-    title: "Navigasi",
+    title: "Kanal Berita Utama",
     links: [
       { label: "Kabar KEMUT", href: "/kategori/kabar-kemut" },
       { label: "Kegiatan", href: "/kategori/kegiatan" },
@@ -21,7 +21,7 @@ const COLUMNS = [
     ],
   },
   {
-    title: "Informasi",
+    title: "Layanan Redaksi & Standar",
     links: [
       { label: "Agenda", href: "/agenda" },
       { label: "Pengumuman", href: "/pengumuman" },
@@ -33,27 +33,27 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-cream">
-      <div className="container-editorial py-16">
-        <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+    <footer className="w-full bg-brand-ink text-white">
+      <div className="mx-auto max-w-[1440px] px-4 py-12 md:px-8">
+        <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
-            <span className="font-display text-3xl font-bold">
-              KEMUT<span className="text-gold">NEWS</span>
+            <span className="font-headline text-2xl font-black uppercase">
+              KEMUT<span className="text-brand-primaryContainer">NEWS</span>
             </span>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/50">
-              Satu Keluarga, Banyak Cerita.
+            <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-white/50">
+              Jurnalisme komprehensif dan independen untuk keluarga besar KEMUT.
             </p>
           </div>
 
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <h4 className="text-xs font-semibold uppercase tracking-wide text-gold/80">
+              <h4 className="text-[11px] font-bold uppercase tracking-widest text-brand-primaryContainer">
                 {col.title}
               </h4>
               <ul className="mt-4 flex flex-col gap-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-sm text-cream/60 transition hover:text-gold">
+                    <Link href={link.href} className="text-[13px] text-white/60 transition hover:text-white">
                       {link.label}
                     </Link>
                   </li>
@@ -63,25 +63,25 @@ export default function Footer() {
           ))}
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-gold/80">Follow Us</h4>
+            <h4 className="text-[11px] font-bold uppercase tracking-widest text-brand-primaryContainer">
+              Ikuti Kami
+            </h4>
             <div className="mt-4 flex gap-4">
-              <a href="#" aria-label="Instagram" className="text-cream/60 transition hover:text-gold">
-                <Instagram size={18} strokeWidth={1.75} />
+              <a href="#" aria-label="Facebook" className="text-white/60 transition hover:text-white">
+                <Facebook size={17} strokeWidth={1.75} />
               </a>
-              <a href="#" aria-label="Facebook" className="text-cream/60 transition hover:text-gold">
-                <Facebook size={18} strokeWidth={1.75} />
+              <a href="#" aria-label="Instagram" className="text-white/60 transition hover:text-white">
+                <Instagram size={17} strokeWidth={1.75} />
               </a>
-              <a href="#" aria-label="Youtube" className="text-cream/60 transition hover:text-gold">
-                <Youtube size={18} strokeWidth={1.75} />
+              <a href="#" aria-label="Youtube" className="text-white/60 transition hover:text-white">
+                <Youtube size={17} strokeWidth={1.75} />
               </a>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-gold/20">
-        <div className="container-editorial flex flex-col items-center justify-between gap-3 py-6 text-xs text-cream/40 sm:flex-row">
-          <p>© {new Date().getFullYear()} KEMUTNEWS. All Rights Reserved.</p>
+        <div className="flex flex-col items-center justify-between gap-3 pt-6 text-[11px] uppercase tracking-wide text-white/40 sm:flex-row">
+          <p>© {new Date().getFullYear()} KEMUTNEWS. Seluruh Hak Cipta Dilindungi.</p>
           <p>Media Informasi Keluarga Besar KEMUT</p>
         </div>
       </div>

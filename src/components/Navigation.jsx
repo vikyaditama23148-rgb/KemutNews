@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
-  { label: "Home", href: "/" },
+  { label: "Beranda", href: "/" },
   { label: "Kabar KEMUT", href: "/kategori/kabar-kemut" },
   { label: "Kegiatan", href: "/kategori/kegiatan" },
   { label: "Tokoh", href: "/tokoh" },
@@ -19,30 +19,23 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden md:block">
-      <ul className="flex items-center gap-7">
-        {NAV_ITEMS.map((item) => {
-          const active =
-            item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-          return (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`relative py-1 text-[13px] font-semibold uppercase tracking-wide transition-colors ${
-                  active ? "text-gold-deep" : "text-ink/80 hover:text-ink"
-                }`}
-              >
-                {item.label}
-                <span
-                  className={`absolute -bottom-0.5 left-0 h-[1.5px] bg-gold transition-all duration-300 ${
-                    active ? "w-full" : "w-0"
-                  }`}
-                />
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+    <nav className="hidden h-11 items-center gap-0.5 border-t border-brand-outlineVariant/40 bg-brand-surfaceLowest px-8 lg:flex">
+      {NAV_ITEMS.map((item) => {
+        const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`flex h-full items-center px-3.5 text-[11px] font-bold uppercase tracking-wide transition-colors ${
+              active
+                ? "bg-brand-primaryContainer text-brand-onPrimary"
+                : "text-brand-inkVariant hover:text-brand-ink"
+            }`}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

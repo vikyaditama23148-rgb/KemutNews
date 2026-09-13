@@ -9,24 +9,23 @@ export default function AgendaCard({ item }) {
   const month = Number.isNaN(d.getTime()) ? "" : MONTHS[d.getMonth()];
 
   return (
-    <div className="group flex gap-5 border-b border-cream-line py-6 first:pt-0 last:border-b-0">
-      <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-card border border-gold/40 bg-ink text-cream">
-        <span className="font-display text-xl font-bold leading-none text-gold">{day}</span>
-        <span className="mt-1 text-[10px] font-semibold tracking-wide">{month}</span>
+    <div className="group flex gap-4 bg-brand-surfaceLowest p-4 shadow-sm">
+      <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center bg-brand-ink text-white">
+        <span className="font-headline text-lg font-bold leading-none text-brand-primaryContainer">{day}</span>
+        <span className="mt-1 text-[9px] font-bold tracking-wide">{month}</span>
       </div>
       <div className="min-w-0 flex-1">
-        <h3 className="font-display text-lg font-bold leading-snug text-ink group-hover:text-gold-deep">
+        <h3 className="font-headline text-[16px] font-bold leading-snug text-brand-ink group-hover:text-brand-primary">
           {item.title}
         </h3>
-        <p className="mt-1.5 text-sm text-stone">
+        <p className="mt-1 text-[12px] font-semibold text-brand-secondary">
           {item.event_time} · {item.location}
         </p>
         {item.description && (
-          <p className="mt-2 text-sm leading-relaxed text-stone-light">{item.description}</p>
+          <p className="mt-1.5 line-clamp-2 text-[12px] leading-relaxed text-brand-secondary/80">
+            {item.description}
+          </p>
         )}
-        <button className="mt-3 text-xs font-semibold uppercase tracking-wide text-gold-deep transition hover:text-gold">
-          Lihat Detail
-        </button>
       </div>
     </div>
   );

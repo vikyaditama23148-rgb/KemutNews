@@ -1,12 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getTokohBySlug, getTokohList } from "@/lib/data";
+import { getTokohBySlug } from "@/lib/data";
 
-export async function generateStaticParams() {
-  const list = await getTokohList();
-  return list.map((t) => ({ slug: t.slug }));
-}
+// Selalu ambil data terbaru — jangan bekukan profil tokoh
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const person = await getTokohBySlug(params.slug);

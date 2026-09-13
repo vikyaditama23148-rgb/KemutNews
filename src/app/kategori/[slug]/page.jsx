@@ -1,11 +1,9 @@
 import { notFound } from "next/navigation";
-import { getArticlesByCategory, getCategoryBySlug, getCategories } from "@/lib/data";
+import { getArticlesByCategory, getCategoryBySlug } from "@/lib/data";
 import NewsCard from "@/components/NewsCard";
 
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((c) => ({ slug: c.slug }));
-}
+// Selalu ambil data terbaru — jangan bekukan daftar artikel per kategori
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const category = await getCategoryBySlug(params.slug);

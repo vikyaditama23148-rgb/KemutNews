@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  @apply bg-cream text-ink font-body antialiased;
+  @apply bg-brand-surface text-brand-ink font-broadsheet antialiased;
 }
 
 ::selection {
