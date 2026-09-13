@@ -27,42 +27,38 @@ export default function ShareBar({ title }) {
   }
 
   return (
-    <div className="mt-10 flex items-center gap-4 border-t border-cream-line pt-6">
-      <span className="text-xs font-semibold uppercase tracking-wide text-stone-light">
-        Bagikan
+    <div className="mt-10 flex flex-wrap items-center gap-2.5 border-t border-brand-outlineVariant/40 pt-6">
+      <span className="mr-1 text-[11px] font-bold uppercase tracking-wide text-brand-secondary">
+        Bagikan Artikel Ini
       </span>
       <button
         onClick={() => shareTo("whatsapp")}
         aria-label="Bagikan ke WhatsApp"
-        className="text-stone transition hover:text-gold-deep"
+        className="flex h-9 w-9 items-center justify-center bg-[#25D366] text-white transition hover:opacity-90"
       >
-        <MessageCircle size={18} strokeWidth={1.75} />
+        <MessageCircle size={16} strokeWidth={2} />
       </button>
       <button
         onClick={() => shareTo("facebook")}
         aria-label="Bagikan ke Facebook"
-        className="text-stone transition hover:text-gold-deep"
+        className="flex h-9 w-9 items-center justify-center bg-[#1877F2] text-white transition hover:opacity-90"
       >
-        <Facebook size={18} strokeWidth={1.75} />
+        <Facebook size={16} strokeWidth={2} />
       </button>
       <button
         onClick={() => shareTo("twitter")}
         aria-label="Bagikan ke X (Twitter)"
-        className="text-stone transition hover:text-gold-deep"
+        className="flex h-9 w-9 items-center justify-center bg-black text-white transition hover:opacity-90"
       >
-        <Twitter size={18} strokeWidth={1.75} />
+        <Twitter size={16} strokeWidth={2} />
       </button>
       <button
         onClick={handleCopy}
         aria-label="Salin tautan"
-        className="flex items-center gap-1.5 text-stone transition hover:text-gold-deep"
+        className="flex h-9 items-center gap-1.5 border border-brand-outlineVariant px-3 text-[11px] font-bold uppercase tracking-wide text-brand-ink transition hover:border-brand-primary hover:text-brand-primary"
       >
-        {copied ? (
-          <Check size={18} strokeWidth={1.75} className="text-gold-deep" />
-        ) : (
-          <Link2 size={18} strokeWidth={1.75} />
-        )}
-        {copied && <span className="text-xs text-gold-deep">Tersalin!</span>}
+        {copied ? <Check size={14} /> : <Link2 size={14} />}
+        {copied ? "Tersalin!" : "Salin"}
       </button>
     </div>
   );

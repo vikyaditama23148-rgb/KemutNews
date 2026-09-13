@@ -32,11 +32,22 @@ body {
 }
 
 .prose-kemut p {
-  @apply mb-6 text-[17px] leading-[1.85] text-ink/90;
+  @apply mb-6 text-[17px] leading-[1.85] text-brand-ink/90;
+}
+
+.prose-kemut p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-merriweather), Georgia, serif;
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 52px;
+  padding-right: 8px;
+  padding-top: 6px;
+  color: #93000b;
 }
 
 .prose-kemut blockquote {
-  @apply my-8 border-l-2 border-gold pl-6 font-display text-xl italic leading-relaxed text-ink/80;
+  @apply my-8 border-l-4 border-brand-primary bg-brand-surfaceLow py-4 pl-6 font-headline text-xl italic leading-relaxed text-brand-ink;
 }
 
 /* thin custom scrollbar for horizontal scrollers (gallery, tickers) */
