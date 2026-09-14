@@ -8,6 +8,7 @@ import ShareBar from "@/components/ShareBar";
 import TrendingSidebar from "@/components/TrendingSidebar";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
+import ViewTracker from "@/components/ViewTracker";
 
 export async function generateMetadata({ params }) {
   const article = await getArticleBySlug(params.slug);
@@ -32,6 +33,7 @@ export default async function ArticlePage({ params }) {
 
   return (
     <article>
+      <ViewTracker slug={article.slug} />
       <div className="mx-auto max-w-[1440px] px-4 pt-6 md:px-8">
         {/* Breadcrumb */}
         <nav className="mb-4 text-xs text-brand-secondary">
@@ -153,9 +155,12 @@ export default async function ArticlePage({ params }) {
                   </p>
                 </div>
               </div>
+            </div>
 
-              {/* Komentar */}
-              <div className="mt-8 border-t border-brand-outlineVariant/40 pt-6">
+            {/* Komentar — sengaja di luar wrapper "prose-kemut" supaya
+                gaya drop-cap & tipografi artikel tidak ikut ke teks komentar */}
+            <div className="mx-auto mt-8 w-full max-w-[720px]">
+              <div className="border-t border-brand-outlineVariant/40 pt-6">
                 <CommentList comments={comments} />
                 <div className="mt-6">
                   <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-brand-secondary">
