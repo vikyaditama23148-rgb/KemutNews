@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Newspaper, Users, Video, Image as ImageIcon, CalendarDays, ExternalLink } from "lucide-react";
+import { LayoutDashboard, Newspaper, Users, Video, Image as ImageIcon, CalendarDays, MessageCircle, ExternalLink } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 const NAV = [
@@ -12,9 +12,10 @@ const NAV = [
   { label: "Video", href: "/admin/video", icon: Video },
   { label: "Galeri", href: "/admin/galeri", icon: ImageIcon },
   { label: "Agenda", href: "/admin/agenda", icon: CalendarDays },
+  { label: "Komentar", href: "/admin/komentar", icon: MessageCircle },
 ];
 
-export default function AdminSidebar({ userEmail }) {
+export default function AdminSidebar({ userEmail, pendingComments = 0 }) {
   const pathname = usePathname();
 
   return (
@@ -40,6 +41,11 @@ export default function AdminSidebar({ userEmail }) {
               >
                 <Icon size={17} strokeWidth={1.75} />
                 {item.label}
+                {item.href === "/admin/komentar" && pendingComments > 0 && (
+                  <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">
+                    {pendingComments}
+                  </span>
+                )}
               </Link>
             );
           })}

@@ -447,3 +447,52 @@ export async function deleteAgendaAction(id) {
   revalidatePath("/agenda");
   revalidatePath("/");
 }
+
+// ---------------------------------------------------------------------
+// KOMENTAR (moderasi)
+// ---------------------------------------------------------------------
+
+export async function approveCommentAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("comments").update({ status: "approved" }).eq("id", id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/komentar");
+  revalidatePath("/artikel", "layout");
+}
+
+export async function rejectCommentAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("comments").update({ status: "rejected" }).eq("id", id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/komentar");
+  revalidatePath("/artikel", "layout");
+}
+
+export async function deleteCommentAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("comments").delete().eq("id", id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/komentar");
+  revalidatePath("/artikel", "layout");
+}

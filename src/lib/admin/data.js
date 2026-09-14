@@ -132,12 +132,13 @@ export async function getAdminAgendaById(id) {
 
 export async function getAdminStats() {
   const supabase = createClient();
-  const [articles, tokoh, gallery, videos, agenda] = await Promise.all([
+  const [articles, tokoh, gallery, videos, agenda, pendingComments] = await Promise.all([
     supabase.from("articles").select("id", { count: "exact", head: true }),
     supabase.from("tokoh").select("id", { count: "exact", head: true }),
     supabase.from("gallery_items").select("id", { count: "exact", head: true }),
     supabase.from("videos").select("id", { count: "exact", head: true }),
     supabase.from("agenda_items").select("id", { count: "exact", head: true }),
+    supabase.from("comments").select("id", { count: "exact", head: true }).eq("status", "pending"),
   ]);
 
   return {
@@ -146,5 +147,17 @@ export async function getAdminStats() {
     gallery: gallery.count || 0,
     videos: videos.count || 0,
     agenda: agenda.count || 0,
+    pendingComments: pendingComments.count || 0,
   };
+}
+
+export async function getAdminComments() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("comments")
+    .select("id, article_slug, name, content, status, created_at, articles ( title )")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data || [];
 }

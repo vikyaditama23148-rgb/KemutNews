@@ -266,3 +266,23 @@ export async function getAgendaItems() {
   if (error || !data || data.length === 0) return mockAgenda;
   return data;
 }
+
+// ---------------------------------------------------------------------
+// COMMENTS
+// ---------------------------------------------------------------------
+
+export async function getApprovedComments(articleSlug) {
+  if (!isSupabaseConfigured) return [];
+  const { data, error } = await supabase
+    .from("comments")
+    .select("id, name, content, created_at")
+    .eq("article_slug", articleSlug)
+    .eq("status", "approved")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[KEMUTNEWS] getApprovedComments error:", error);
+    return [];
+  }
+  return data || [];
+}

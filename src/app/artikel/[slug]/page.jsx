@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getArticleBySlug, getRelatedArticles, getHomepageFeed } from "@/lib/data";
+import { getArticleBySlug, getRelatedArticles, getHomepageFeed, getApprovedComments } from "@/lib/data";
 import { formatDate, formatDateLong, formatReadingTime } from "@/lib/format";
 import NewsCard from "@/components/NewsCard";
 import ShareBar from "@/components/ShareBar";
 import TrendingSidebar from "@/components/TrendingSidebar";
+import CommentForm from "@/components/CommentForm";
+import CommentList from "@/components/CommentList";
 
 export async function generateMetadata({ params }) {
   const article = await getArticleBySlug(params.slug);
@@ -20,9 +22,10 @@ export default async function ArticlePage({ params }) {
   const article = await getArticleBySlug(params.slug);
   if (!article) notFound();
 
-  const [related, { mostRead }] = await Promise.all([
+  const [related, { mostRead }, comments] = await Promise.all([
     getRelatedArticles(article.category?.slug, article.slug, 3),
     getHomepageFeed(),
+    getApprovedComments(article.slug),
   ]);
 
   const paragraphs = (article.content || "").split(/\n\s*\n/).filter(Boolean);
@@ -148,6 +151,17 @@ export default async function ArticlePage({ params }) {
                   <p className="text-[13px] text-brand-secondary">
                     {article.author?.role || "Kontributor KEMUTNEWS"}
                   </p>
+                </div>
+              </div>
+
+              {/* Komentar */}
+              <div className="mt-8 border-t border-brand-outlineVariant/40 pt-6">
+                <CommentList comments={comments} />
+                <div className="mt-6">
+                  <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-brand-secondary">
+                    Tinggalkan Komentar
+                  </p>
+                  <CommentForm articleSlug={article.slug} />
                 </div>
               </div>
             </div>
