@@ -71,7 +71,7 @@ export default function PrivasiPage() {
             2. Penggunaan Informasi
           </h3>
           <p>Informasi yang kami kumpulkan digunakan semata-mata untuk:</p>
-          <ul className="mb-6 list-disc space-y-2 pl-5 text-[17px] leading-relaxed text-brand-ink/90">
+          <ul className="mb-6 list-disc space-y-2 pl-5 text-[17px] leading-relaxed text-brand-ink">
             <li>Mengirimkan kabar terbaru dan agenda kegiatan KEMUT (bila kamu berlangganan).</li>
             <li>Memahami bagaimana pengunjung menggunakan situs untuk perbaikan ke depan.</li>
             <li>Menjaga keamanan dan mencegah penyalahgunaan situs.</li>

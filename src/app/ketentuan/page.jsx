@@ -89,7 +89,7 @@ export default function KetentuanPage() {
             4. Perilaku Pengguna
           </h3>
           <p>Pengunjung situs diharapkan untuk:</p>
-          <ul className="mb-6 list-disc space-y-2 pl-5 text-[17px] leading-relaxed text-brand-ink/90">
+          <ul className="mb-6 list-disc space-y-2 pl-5 text-[17px] leading-relaxed text-brand-ink">
             <li>Tidak menyalahgunakan situs untuk tujuan yang melanggar hukum.</li>
             <li>Tidak mencoba mengakses sistem atau data secara tidak sah.</li>
             <li>Menghormati privasi dan nama baik anggota lain yang disebut dalam konten.</li>

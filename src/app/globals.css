@@ -32,7 +32,7 @@ body {
 }
 
 .prose-kemut p {
-  @apply mb-6 text-[17px] leading-[1.85] text-brand-ink/90;
+  @apply mb-6 text-[17px] leading-[1.85] text-brand-ink;
 }
 
 .prose-kemut p:first-of-type::first-letter {
