@@ -61,8 +61,9 @@ export default async function AdminKomentarPage({ searchParams }) {
             {comments.map((c) => (
               <li key={c.id} className="p-5">
                 <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className="font-semibold text-ink">{c.name}</span>
+                    {c.email && <span className="text-xs text-stone-light">({c.email})</span>}
                     <span
                       className={`rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase ${STATUS_LABEL[c.status]?.className}`}
                     >
@@ -71,6 +72,13 @@ export default async function AdminKomentarPage({ searchParams }) {
                   </div>
                   <span className="text-xs text-stone-light">{formatDateLong(c.created_at)}</span>
                 </div>
+                {c.website && (
+                  <p className="mb-1.5 text-xs text-gold-deep">
+                    <a href={c.website} target="_blank" rel="noreferrer" className="hover:underline">
+                      {c.website}
+                    </a>
+                  </p>
+                )}
                 <p className="text-sm leading-relaxed text-stone-dark">{c.content}</p>
                 <p className="mt-2 text-xs text-stone-light">
                   Pada artikel:{" "}

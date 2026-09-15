@@ -178,7 +178,7 @@ export async function getAdminComments() {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("comments")
-    .select("id, article_slug, name, content, status, created_at, articles ( title )")
+    .select("id, article_slug, name, email, website, content, status, created_at, articles ( title )")
     .order("created_at", { ascending: false });
 
   if (error) throw error;

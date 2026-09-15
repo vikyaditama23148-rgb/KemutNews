@@ -275,7 +275,7 @@ export async function getApprovedComments(articleSlug) {
   if (!isSupabaseConfigured) return [];
   const { data, error } = await supabase
     .from("comments")
-    .select("id, name, content, created_at")
+    .select("id, name, website, content, created_at")
     .eq("article_slug", articleSlug)
     .eq("status", "approved")
     .order("created_at", { ascending: false });
