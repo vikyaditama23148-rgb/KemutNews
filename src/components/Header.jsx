@@ -8,7 +8,7 @@ import Navigation from "./Navigation";
 import MobileNav from "./MobileNav";
 import SearchOverlay from "./SearchOverlay";
 
-export default function Header() {
+export default function Header({ categories }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -67,10 +67,10 @@ export default function Header() {
           </button>
         </div>
 
-        <Navigation />
+        <Navigation categories={categories} />
       </header>
 
-      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} categories={categories} />
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );

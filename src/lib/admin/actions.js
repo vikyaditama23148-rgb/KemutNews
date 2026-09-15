@@ -496,3 +496,77 @@ export async function deleteCommentAction(id) {
   revalidatePath("/admin/komentar");
   revalidatePath("/artikel", "layout");
 }
+
+// ---------------------------------------------------------------------
+// KATEGORI
+// ---------------------------------------------------------------------
+
+function buildCategoryPayload(formData) {
+  return {
+    name: formData.get("name")?.toString().trim(),
+    description: formData.get("description")?.toString().trim() || null,
+  };
+}
+
+export async function createCategoryAction(formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildCategoryPayload(formData);
+  let slug = slugify(formData.get("slug")?.toString() || payload.name || "");
+  if (!slug) slug = `kategori-${Date.now()}`;
+
+  const { error } = await supabase.from("categories").insert({ ...payload, slug });
+
+  if (error) {
+    redirect(`/admin/kategori/baru?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/kategori");
+  revalidatePath("/");
+  redirect("/admin/kategori");
+}
+
+export async function updateCategoryAction(id, formData) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const payload = buildCategoryPayload(formData);
+  const slug = slugify(formData.get("slug")?.toString() || payload.name || "");
+
+  const { error } = await supabase.from("categories").update({ ...payload, slug }).eq("id", id);
+
+  if (error) {
+    redirect(`/admin/kategori/${id}?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/kategori");
+  revalidatePath(`/kategori/${slug}`);
+  revalidatePath("/");
+  redirect("/admin/kategori");
+}
+
+export async function deleteCategoryAction(id) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+
+  const { error } = await supabase.from("categories").delete().eq("id", id);
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/admin/kategori");
+  revalidatePath("/");
+}

@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
-import { NAV_ITEMS } from "./Navigation";
+import { buildNavItems } from "./Navigation";
 
-export default function MobileNav({ open, onClose }) {
+export default function MobileNav({ open, onClose, categories }) {
   const pathname = usePathname();
+  const navItems = buildNavItems(categories);
 
   return (
     <div
@@ -33,7 +34,7 @@ export default function MobileNav({ open, onClose }) {
           </button>
         </div>
         <ul className="flex flex-col px-6 py-4">
-          {NAV_ITEMS.map((item) => {
+          {navItems.map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
               <li key={item.href} className="border-b border-white/5">

@@ -38,6 +38,29 @@ export async function getCategoriesForAdmin() {
   return data || [];
 }
 
+export async function getAdminCategoryList() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, slug, name, description")
+    .order("name", { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAdminCategoryById(id) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, slug, name, description")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function getAdminTokohList() {
   const supabase = createClient();
   const { data, error } = await supabase

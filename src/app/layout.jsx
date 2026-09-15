@@ -4,6 +4,7 @@ import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import BreakingNews from "@/components/BreakingNews";
 import Footer from "@/components/Footer";
+import { getCategories } from "@/lib/data";
 
 const merriweather = Merriweather({
   subsets: ["latin"],
@@ -35,12 +36,14 @@ export const metadata = {
 // tidak akan muncul di halaman publik sampai ada deploy berikutnya.
 export const dynamic = "force-dynamic";
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const categories = await getCategories();
+
   return (
     <html lang="id">
       <body className={`${merriweather.variable} ${publicSans.variable}`}>
         <TopBar />
-        <Header />
+        <Header categories={categories} />
         <BreakingNews />
         <main>{children}</main>
         <Footer />

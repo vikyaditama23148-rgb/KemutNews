@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Newspaper, Users, Video, Image as ImageIcon, CalendarDays, MessageCircle, ExternalLink } from "lucide-react";
+import { LayoutDashboard, Newspaper, Users, Video, Image as ImageIcon, CalendarDays, MessageCircle, Tag, ExternalLink } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 const NAV = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Artikel", href: "/admin/artikel", icon: Newspaper },
+  { label: "Kategori", href: "/admin/kategori", icon: Tag },
   { label: "Tokoh KEMUT", href: "/admin/tokoh", icon: Users },
   { label: "Video", href: "/admin/video", icon: Video },
   { label: "Galeri", href: "/admin/galeri", icon: ImageIcon },
