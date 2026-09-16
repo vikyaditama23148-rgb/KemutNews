@@ -12,9 +12,9 @@ const CHANNELS = [
 ];
 
 const SOCIALS = [
-  { icon: Instagram, label: "Instagram", href: "kemut_official23" },
+  { icon: Instagram, label: "Instagram", href: "@kemut_official23" },
   { icon: Facebook, label: "Facebook", href: "#" },
-  { icon: Youtube, label: "Youtube", href: "#" },
+  { icon: Youtube, label: "Youtube", href: "@KemutTube" },
 ];
 
 export default function KontakPage() {
