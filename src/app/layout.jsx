@@ -28,6 +28,7 @@ export const metadata = {
   },
   description:
     "KEMUTNEWS adalah media informasi dan dokumentasi digital keluarga besar KEMUT — kabar, kegiatan, tokoh, dan cerita komunitas.",
+  manifest: "/manifest.json",
 };
 
 // Paksa seluruh halaman selalu mengambil data terbaru dari Supabase pada

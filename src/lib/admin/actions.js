@@ -74,6 +74,21 @@ export async function createArticleAction(formData) {
     redirect(`/admin/artikel/baru?error=${encodeURIComponent(error.message)}`);
   }
 
+  // Kirim notifikasi push ke perangkat yang berlangganan.
+  // Sengaja dibungkus try/catch: kalau pengiriman notifikasi gagal karena
+  // alasan apa pun, publikasi artikel TETAP dianggap berhasil.
+  try {
+    const { sendPushToAll } = await import("@/lib/actions/sendPush");
+    await sendPushToAll({
+      title: "Kabar Terbaru KEMUTNEWS",
+      body: payload.title,
+      url: `/artikel/${slug}`,
+      image: payload.cover_image_url || undefined,
+    });
+  } catch (pushError) {
+    console.error("[KEMUTNEWS] Gagal mengirim notifikasi push:", pushError);
+  }
+
   revalidatePath("/admin/artikel");
   revalidatePath("/");
   redirect("/admin/artikel");

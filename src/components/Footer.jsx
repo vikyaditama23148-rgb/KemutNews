@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Facebook, Instagram, Youtube } from "lucide-react";
+import NotificationOptIn from "./NotificationOptIn";
 
 const COLUMNS = [
   {
@@ -43,6 +44,9 @@ export default function Footer() {
             <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-white/50">
               Jurnalisme komprehensif dan independen untuk keluarga besar KEMUT.
             </p>
+            <div className="mt-5">
+              <NotificationOptIn />
+            </div>
           </div>
 
           {COLUMNS.map((col) => (
@@ -70,10 +74,10 @@ export default function Footer() {
               <a href="#" aria-label="Facebook" className="text-white/60 transition hover:text-white">
                 <Facebook size={17} strokeWidth={1.75} />
               </a>
-              <a href="https://www.instagram.com/kemut_official23" aria-label="Instagram" className="text-white/60 transition hover:text-white">
+              <a href="#" aria-label="Instagram" className="text-white/60 transition hover:text-white">
                 <Instagram size={17} strokeWidth={1.75} />
               </a>
-              <a href="https://www.youtube.com/@KemutTube" aria-label="Youtube" className="text-white/60 transition hover:text-white">
+              <a href="#" aria-label="Youtube" className="text-white/60 transition hover:text-white">
                 <Youtube size={17} strokeWidth={1.75} />
               </a>
             </div>
