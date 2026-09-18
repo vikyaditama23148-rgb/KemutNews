@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getArticleBySlug, getRelatedArticles, getHomepageFeed, getApprovedComments } from "@/lib/data";
+import { getArticleBySlug, getRelatedArticles, getHomepageFeed, getApprovedComments, getReactionCounts } from "@/lib/data";
 import { formatDate, formatDateLong, formatReadingTime } from "@/lib/format";
 import NewsCard from "@/components/NewsCard";
 import ShareBar from "@/components/ShareBar";
@@ -9,6 +9,8 @@ import TrendingSidebar from "@/components/TrendingSidebar";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
 import ViewTracker from "@/components/ViewTracker";
+import LiveViewCount from "@/components/LiveViewCount";
+import ArticleReactions from "@/components/ArticleReactions";
 
 export async function generateMetadata({ params }) {
   const article = await getArticleBySlug(params.slug);
@@ -23,10 +25,11 @@ export default async function ArticlePage({ params }) {
   const article = await getArticleBySlug(params.slug);
   if (!article) notFound();
 
-  const [related, { mostRead }, comments] = await Promise.all([
+  const [related, { mostRead }, comments, reactionCounts] = await Promise.all([
     getRelatedArticles(article.category?.slug, article.slug, 3),
     getHomepageFeed(),
     getApprovedComments(article.slug),
+    getReactionCounts(article.slug),
   ]);
 
   const paragraphs = (article.content || "").split(/\n\s*\n/).filter(Boolean);
@@ -94,11 +97,13 @@ export default async function ArticlePage({ params }) {
                 <div className="hidden shrink-0 flex-col items-end text-[11px] text-brand-secondary sm:flex">
                   <span>{formatDateLong(article.published_at)}</span>
                   <span>{formatReadingTime(article.reading_time_minutes)}</span>
+                  <LiveViewCount slug={article.slug} initialCount={article.view_count} />
                 </div>
               </div>
-              <div className="mt-2 flex justify-between text-[11px] text-brand-secondary sm:hidden">
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-1 text-[11px] text-brand-secondary sm:hidden">
                 <span>{formatDate(article.published_at)}</span>
                 <span>{formatReadingTime(article.reading_time_minutes)}</span>
+                <LiveViewCount slug={article.slug} initialCount={article.view_count} />
               </div>
             </div>
 
@@ -129,6 +134,10 @@ export default async function ArticlePage({ params }) {
               )}
 
               <ShareBar title={article.title} />
+
+              <div className="mt-6">
+                <ArticleReactions slug={article.slug} initialCounts={reactionCounts} />
+              </div>
 
               {/* Author bio card */}
               <div className="mt-8 flex items-start gap-4 bg-brand-surfaceLow p-5">

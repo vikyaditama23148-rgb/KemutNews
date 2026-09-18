@@ -286,3 +286,26 @@ export async function getApprovedComments(articleSlug) {
   }
   return data || [];
 }
+
+// ---------------------------------------------------------------------
+// REAKSI EMOJI
+// ---------------------------------------------------------------------
+
+export async function getReactionCounts(articleSlug) {
+  if (!isSupabaseConfigured) return {};
+  const { data, error } = await supabase
+    .from("article_reactions")
+    .select("emoji")
+    .eq("article_slug", articleSlug);
+
+  if (error) {
+    console.error("[KEMUTNEWS] getReactionCounts error:", error);
+    return {};
+  }
+
+  const counts = {};
+  for (const row of data || []) {
+    counts[row.emoji] = (counts[row.emoji] || 0) + 1;
+  }
+  return counts;
+}
