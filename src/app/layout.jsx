@@ -4,6 +4,7 @@ import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import BreakingNews from "@/components/BreakingNews";
 import Footer from "@/components/Footer";
+import NotificationBanner from "@/components/NotificationBanner";
 import { getCategories } from "@/lib/data";
 
 const merriweather = Merriweather({
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }) {
         <BreakingNews />
         <main>{children}</main>
         <Footer />
+        <NotificationBanner />
       </body>
     </html>
   );
