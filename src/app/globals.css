@@ -50,6 +50,36 @@ body {
   @apply my-8 border-l-4 border-brand-primary bg-brand-surfaceLow py-4 pl-6 font-headline text-xl italic leading-relaxed text-brand-ink;
 }
 
+.prose-kemut strong {
+  @apply font-bold text-brand-ink;
+}
+
+.prose-kemut em {
+  @apply italic;
+}
+
+.prose-kemut h2,
+.prose-kemut h3 {
+  @apply mb-4 mt-10 font-headline text-2xl font-bold text-brand-ink;
+}
+
+.prose-kemut ul,
+.prose-kemut ol {
+  @apply mb-6 space-y-2 pl-5 text-[17px] leading-relaxed text-brand-ink;
+}
+
+.prose-kemut ul {
+  @apply list-disc;
+}
+
+.prose-kemut ol {
+  @apply list-decimal;
+}
+
+.prose-kemut a {
+  @apply text-brand-primary underline underline-offset-2;
+}
+
 /* thin custom scrollbar for horizontal scrollers (gallery, tickers) */
 .scroll-thin::-webkit-scrollbar {
   height: 4px;

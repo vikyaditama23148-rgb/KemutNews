@@ -11,6 +11,7 @@ import CommentList from "@/components/CommentList";
 import ViewTracker from "@/components/ViewTracker";
 import LiveViewCount from "@/components/LiveViewCount";
 import ArticleReactions from "@/components/ArticleReactions";
+import ReactMarkdown from "react-markdown";
 
 export async function generateMetadata({ params }) {
   const article = await getArticleBySlug(params.slug);
@@ -31,8 +32,6 @@ export default async function ArticlePage({ params }) {
     getApprovedComments(article.slug),
     getReactionCounts(article.slug),
   ]);
-
-  const paragraphs = (article.content || "").split(/\n\s*\n/).filter(Boolean);
 
   return (
     <article>
@@ -125,13 +124,7 @@ export default async function ArticlePage({ params }) {
 
             {/* Body */}
             <div className="prose-kemut mx-auto mt-8 w-full max-w-[720px]">
-              {paragraphs.map((p, i) =>
-                p.startsWith(">") ? (
-                  <blockquote key={i}>{p.replace(/^>\s*/, "")}</blockquote>
-                ) : (
-                  <p key={i}>{p}</p>
-                )
-              )}
+              <ReactMarkdown>{article.content || ""}</ReactMarkdown>
 
               <ShareBar title={article.title} />
 

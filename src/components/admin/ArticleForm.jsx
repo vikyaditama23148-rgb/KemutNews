@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { UploadCloud, Loader2 } from "lucide-react";
+import { UploadCloud, Loader2, Bold, Italic, Quote, Heading2, List } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 function SubmitButton({ label }) {
@@ -26,6 +26,34 @@ export default function ArticleForm({ action, categories, initialData, errorMess
   const [title, setTitle] = useState(initialData?.title || "");
   const [slug, setSlug] = useState(initialData?.slug || "");
   const [slugTouched, setSlugTouched] = useState(Boolean(initialData?.slug));
+  const contentRef = useRef(null);
+
+  function wrapSelection(before, after = before) {
+    const el = contentRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const value = el.value;
+    const selected = value.slice(start, end) || "teks";
+    const newValue = value.slice(0, start) + before + selected + after + value.slice(end);
+    el.value = newValue;
+    el.focus();
+    const cursorPos = start + before.length + selected.length + after.length;
+    el.setSelectionRange(cursorPos, cursorPos);
+  }
+
+  function prefixLine(prefix) {
+    const el = contentRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const value = el.value;
+    const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+    const newValue = value.slice(0, lineStart) + prefix + value.slice(lineStart);
+    el.value = newValue;
+    el.focus();
+    const cursorPos = start + prefix.length;
+    el.setSelectionRange(cursorPos, cursorPos);
+  }
 
   function autoSlug(value) {
     return value
@@ -125,13 +153,61 @@ export default function ArticleForm({ action, categories, initialData, errorMess
         <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone">
           Isi Artikel
         </label>
+
+        <div className="mb-1.5 flex flex-wrap gap-1 rounded-t-card border border-b-0 border-cream-line bg-cream-soft p-1.5">
+          <button
+            type="button"
+            onClick={() => wrapSelection("**")}
+            title="Tebal (Bold)"
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink transition hover:bg-cream-line"
+          >
+            <Bold size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => wrapSelection("*")}
+            title="Miring (Italic)"
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink transition hover:bg-cream-line"
+          >
+            <Italic size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => prefixLine("## ")}
+            title="Sub-judul"
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink transition hover:bg-cream-line"
+          >
+            <Heading2 size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => prefixLine("> ")}
+            title="Kutipan Menonjol"
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink transition hover:bg-cream-line"
+          >
+            <Quote size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => prefixLine("- ")}
+            title="Daftar Poin"
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink transition hover:bg-cream-line"
+          >
+            <List size={15} />
+          </button>
+          <span className="ml-1 flex items-center text-[11px] text-stone-light">
+            Blok teks lalu klik tombol untuk memformat
+          </span>
+        </div>
+
         <textarea
+          ref={contentRef}
           name="content"
           required
           rows={10}
           defaultValue={initialData?.content}
-          className="w-full rounded-card border border-cream-line px-3.5 py-2.5 text-sm leading-relaxed focus:border-gold focus:outline-none"
-          placeholder="Tulis isi artikel di sini. Pisahkan paragraf dengan baris kosong. Gunakan '> ' di awal baris untuk kutipan."
+          className="w-full rounded-b-card border border-cream-line px-3.5 py-2.5 text-sm leading-relaxed focus:border-gold focus:outline-none"
+          placeholder="Tulis isi artikel di sini. Pisahkan paragraf dengan baris kosong."
         />
       </div>
 
