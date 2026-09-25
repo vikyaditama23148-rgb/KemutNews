@@ -16,9 +16,29 @@ import ReactMarkdown from "react-markdown";
 export async function generateMetadata({ params }) {
   const article = await getArticleBySlug(params.slug);
   if (!article) return {};
+ 
+  const url = `/artikel/${article.slug}`;
+ 
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url,
+      type: "article",
+      publishedTime: article.published_at,
+      authors: article.author?.name ? [article.author.name] : undefined,
+      images: article.cover_image_url ? [{ url: article.cover_image_url }] : undefined,
+      siteName: "KEMUTNEWS",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: article.cover_image_url ? [article.cover_image_url] : undefined,
+    },
   };
 }
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Mail } from "lucide-react";
 
 export const metadata = {
@@ -8,11 +9,17 @@ export const metadata = {
 const TEAM = [
   {
     name: "Viky Aditama",
+    role: "Pimpinan Redaksi",
+    desc: "Bertanggung jawab penuh atas arah editorial dan standar jurnalistik KEMUTNEWS.",
+    href: "/redaksi/pimpinan-redaksi",
+  },
+  {
+    name: "Nadila Maulidina",
     role: "Redaktur KEMUTNEWS",
     desc: "Bertanggung jawab atas arah editorial dan kualitas setiap kabar yang dipublikasikan.",
   },
   {
-    name: "Nadila Maulidina",
+    name: "Nefita Putri Mulyadi",
     role: "Jurnalis Komunitas",
     desc: "Fokus meliput cerita, human interest, dan kisah personal anggota KEMUT.",
   },
@@ -46,16 +53,24 @@ export default function RedaksiPage() {
       </div>
 
       <div className="grid gap-px bg-brand-outlineVariant/30 sm:grid-cols-3">
-        {TEAM.map((person) => (
-          <div key={person.name} className="bg-brand-surfaceLowest p-6">
-            <h3 className="font-headline text-lg font-bold text-brand-ink">{person.name}</h3>
-            <p className="mt-1 text-[11px] font-bold uppercase tracking-wide text-brand-primary">
-              {person.role}
-            </p>
-            <p className="mt-3 text-[13px] leading-relaxed text-brand-secondary">{person.desc}</p>
-          </div>
-        ))}
-      </div>
+          {TEAM.map((person) => (
+            <div key={person.name} className="bg-brand-surfaceLowest p-6">
+              {person.href ? (
+                <Link href={person.href}>
+                  <h3 className="font-headline text-lg font-bold text-brand-ink hover:text-brand-primary">
+                    {person.name}
+                  </h3>
+                </Link>
+              ) : (
+                <h3 className="font-headline text-lg font-bold text-brand-ink">{person.name}</h3>
+              )}
+              <p className="mt-1 text-[11px] font-bold uppercase tracking-wide text-brand-primary">
+                {person.role}
+              </p>
+              <p className="mt-3 text-[13px] leading-relaxed text-brand-secondary">{person.desc}</p>
+            </div>
+          ))}
+        </div>
 
       <div className="mt-8 flex flex-col items-start justify-between gap-4 bg-brand-ink p-7 text-white sm:flex-row sm:items-center">
         <div>

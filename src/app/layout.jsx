@@ -23,6 +23,7 @@ const publicSans = Public_Sans({
 });
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://kemut-news.vercel.app"),
   title: {
     default: "KEMUTNEWS — Jurnalisme Komprehensif & Independen",
     template: "%s — KEMUTNEWS",

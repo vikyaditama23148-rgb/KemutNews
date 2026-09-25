@@ -309,3 +309,22 @@ export async function getReactionCounts(articleSlug) {
   }
   return counts;
 }
+// ---------------------------------------------------------------------
+// SITEMAP
+// ---------------------------------------------------------------------
+
+export async function getAllArticlesForSitemap() {
+  if (!isSupabaseConfigured) {
+    return mockArticles.map((a) => ({ slug: a.slug, published_at: a.published_at }));
+  }
+  const { data, error } = await supabase
+    .from("articles")
+    .select("slug, published_at")
+    .order("published_at", { ascending: false });
+
+  if (error) {
+    console.error("[KEMUTNEWS] getAllArticlesForSitemap error:", error);
+    return [];
+  }
+  return data || [];
+}
