@@ -75,8 +75,8 @@ export default function PimpinanRedaksiPage() {
           </div>
 
           <p className="mt-6 text-xs text-brand-secondary/70">
-            Catatan: teks profil di atas masih draf awal — silakan sesuaikan pada file{" "}
-            <code>src/app/redaksi/pimpinan-redaksi/page.jsx</code>.
+            Catatan: Copyright di lindungi oleh media CyberLuxury{" "}
+            <code>Viky Aditama Pemimpin Redaksi</code>.
           </p>
         </div>
       </div>
