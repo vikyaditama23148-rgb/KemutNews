@@ -328,3 +328,28 @@ export async function getAllArticlesForSitemap() {
   }
   return data || [];
 }
+// ---------------------------------------------------------------------
+// ARTIKEL PER PENULIS (untuk halaman profil pribadi)
+// ---------------------------------------------------------------------
+
+export async function getArticlesByAuthorName(authorName) {
+  if (!isSupabaseConfigured) {
+    return mockArticles
+      .filter((a) => a.author?.name === authorName)
+      .map(normalizeMockArticle);
+  }
+
+  const { data, error } = await supabase
+    .from("articles")
+    .select(ARTICLE_SELECT)
+    .order("published_at", { ascending: false });
+
+  if (error) {
+    console.error("[KEMUTNEWS] getArticlesByAuthorName error:", error);
+    return [];
+  }
+
+  return (data || [])
+    .map(normalizeDbArticle)
+    .filter((a) => a.author?.name === authorName);
+}

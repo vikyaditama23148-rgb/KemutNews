@@ -1,20 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getArticlesByAuthorName } from "@/lib/data";
+import NewsCard from "@/components/NewsCard";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kemut-news.vercel.app";
+const AUTHOR_NAME = "Viky Aditama";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Viky Aditama — Pimpinan Redaksi",
   description:
-    "Profil Viky Aditama, Pimpinan Redaksi KEMUTNEWS — media informasi dan dokumentasi digital keluarga besar KEMUT.",
+    "Profil Viky Aditama, Pimpinan Redaksi KEMUTNEWS, beserta kumpulan artikel yang ditulisnya untuk media informasi keluarga besar KEMUT.",
   alternates: { canonical: `${SITE_URL}/redaksi/pimpinan-redaksi` },
 };
 
-export default function PimpinanRedaksiPage() {
+export default async function PimpinanRedaksiPage() {
+  const articles = await getArticlesByAuthorName(AUTHOR_NAME);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Viky Aditama",
+    name: AUTHOR_NAME,
     jobTitle: "Pimpinan Redaksi",
     worksFor: {
       "@type": "Organization",
@@ -42,7 +49,7 @@ export default function PimpinanRedaksiPage() {
         <div className="relative aspect-[4/5] overflow-hidden bg-brand-surfaceHigh md:aspect-auto">
           <Image
             src="https://rkwuogwvahvrcpeakpdi.supabase.co/storage/v1/object/public/kemutnews-media/tokoh/1789125107351-1000788557.jpg"
-            alt="Viky Aditama — Pimpinan Redaksi KEMUTNEWS"
+            alt={`${AUTHOR_NAME} — Pimpinan Redaksi KEMUTNEWS`}
             fill
             sizes="(min-width: 768px) 320px, 100vw"
             className="object-cover"
@@ -53,7 +60,7 @@ export default function PimpinanRedaksiPage() {
             Pimpinan Redaksi
           </span>
           <h1 className="mt-3 font-headline text-[32px] font-black leading-tight text-brand-ink md:text-[42px]">
-            Viky Aditama
+            {AUTHOR_NAME}
           </h1>
           <p className="mt-3 max-w-xl text-[16px] italic leading-relaxed text-brand-secondary">
             Bertanggung jawab penuh atas arah editorial, standar jurnalistik, dan kualitas setiap
@@ -62,7 +69,7 @@ export default function PimpinanRedaksiPage() {
 
           <div className="prose-kemut mt-6 max-w-2xl border-t border-brand-outlineVariant/40 pt-6">
             <p>
-              Sebagai Pimpinan Redaksi, Viky Aditama memimpin arah pemberitaan KEMUTNEWS sejak
+              Sebagai Pimpinan Redaksi, {AUTHOR_NAME} memimpin arah pemberitaan KEMUTNEWS sejak
               platform ini didirikan — memastikan setiap kabar, kegiatan, dan cerita keluarga
               besar KEMUT terdokumentasikan dengan akurat, hangat, dan bertanggung jawab.
             </p>
@@ -73,13 +80,32 @@ export default function PimpinanRedaksiPage() {
               seluruh anggota keluarga besar KEMUT.
             </p>
           </div>
-
-          <p className="mt-6 text-xs text-brand-secondary/70">
-            Catatan: Copyright di lindungi oleh media CyberLuxury{" "}
-            <code>Viky Aditama Pemimpin Redaksi</code>.
-          </p>
         </div>
       </div>
+
+      {/* Artikel yang ditulis langsung oleh Viky Aditama */}
+      <section className="mt-12">
+        <div className="mb-6 flex items-center gap-2 border-b border-brand-outlineVariant/40 pb-3">
+          <span className="h-2.5 w-2.5 bg-brand-primary" />
+          <h2 className="font-headline text-lg font-bold uppercase tracking-tight text-brand-ink">
+            Artikel oleh {AUTHOR_NAME}
+          </h2>
+        </div>
+
+        {articles.length === 0 ? (
+          <p className="py-8 text-center text-sm text-brand-secondary">
+            Belum ada artikel yang ditulis atas nama {AUTHOR_NAME}. Artikel akan otomatis muncul
+            di sini begitu kolom &ldquo;Nama Penulis&rdquo; di Admin Panel diisi persis{" "}
+            &ldquo;{AUTHOR_NAME}&rdquo;.
+          </p>
+        ) : (
+          <div className="grid gap-px bg-brand-outlineVariant/30 sm:grid-cols-2 lg:grid-cols-3">
+            {articles.map((article) => (
+              <NewsCard key={article.slug} article={article} />
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* Structured data — membantu Google memahami identitas penulis/redaksi */}
       <script
