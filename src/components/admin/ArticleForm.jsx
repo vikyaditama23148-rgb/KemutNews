@@ -19,6 +19,45 @@ function SubmitButton({ label }) {
   );
 }
 
+// Mengubah ukuran & mengompres gambar di browser SEBELUM di-upload.
+// Penting untuk link preview WhatsApp: WhatsApp sering gagal menampilkan
+// foto preview kalau ukuran filenya terlalu besar (foto asli dari kamera HP
+// biasanya 3-5 MB). Di sini foto diperkecil ke lebar maksimum 1200px
+// (pas untuk standar og:image) dan dikompres ke kualitas JPEG 80%.
+function compressImage(file, maxWidth = 1200, quality = 0.8) {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image();
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (blob) resolve(blob);
+            else reject(new Error("Gagal memproses gambar"));
+          },
+          "image/jpeg",
+          quality
+        );
+      };
+      img.onerror = () => reject(new Error("Gagal memuat gambar"));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error("Gagal membaca file"));
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function ArticleForm({ action, categories, initialData, errorMessage }) {
   const [coverUrl, setCoverUrl] = useState(initialData?.cover_image_url || "");
   const [uploading, setUploading] = useState(false);
@@ -72,11 +111,16 @@ export default function ArticleForm({ action, categories, initialData, errorMess
     setUploadError("");
 
     try {
+      const compressedBlob = await compressImage(file, 1200, 0.8);
+
       const supabase = createClient();
-      const path = `covers/${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
-      const { error } = await supabase.storage.from("kemutnews-media").upload(path, file, {
+      const baseName = file.name.replace(/\s+/g, "-").replace(/\.[^.]+$/, "");
+      const path = `covers/${Date.now()}-${baseName}.jpg`;
+
+      const { error } = await supabase.storage.from("kemutnews-media").upload(path, compressedBlob, {
         cacheControl: "3600",
         upsert: false,
+        contentType: "image/jpeg",
       });
       if (error) throw error;
 
@@ -226,13 +270,13 @@ export default function ArticleForm({ action, categories, initialData, errorMess
             </div>
           )}
           <label className="cursor-pointer rounded-card border border-cream-line px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink transition hover:border-gold hover:text-gold-deep">
-            {uploading ? "Mengunggah..." : "Pilih Gambar"}
+            {uploading ? "Memproses & mengunggah..." : "Pilih Gambar"}
             <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" disabled={uploading} />
           </label>
         </div>
         {uploadError && <p className="mt-2 text-xs text-red-600">{uploadError}</p>}
         <p className="mt-2 text-xs text-stone-light">
-          Atau tempel URL gambar langsung: 
+          Foto otomatis diperkecil & dikompres saat upload (supaya preview WhatsApp berfungsi). Atau tempel URL gambar langsung:
         </p>
         <input
           type="url"
