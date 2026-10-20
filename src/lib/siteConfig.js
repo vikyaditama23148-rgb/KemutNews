@@ -7,7 +7,7 @@
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kemut-news.vercel.app";
 export const SITE_NAME = "KEMUTNEWS";
 export const SITE_DESCRIPTION =
-  "KEMUTNEWS adalah media informasi dan dokumentasi digital keluarga besar KEMUT — memuat kabar, kegiatan, tokoh, cerita, galeri, video, dan agenda komunitas.";
+  "KEMUTNEWS adalah media informasi dan dokumentasi digital milik keluarga besar KEMUT — memuat kabar pemberitaan keluarga dan masyarakat secara umum";
 export const SITE_LANGUAGE = "id-ID";
 export const LOGO_URL = `${SITE_URL}/icon-512.png`;
 
@@ -22,4 +22,6 @@ export const EDITOR_IN_CHIEF = {
 // Biarkan kosong kalau belum ada — jangan diisi dengan tautan yang tidak ada.
 // Tautan ini dipakai sebagai "sameAs": cara memberi tahu Google & AI bahwa akun-akun
 // tersebut milik entitas yang sama dengan situs ini.
-export const SOCIAL_LINKS = [];
+export const SOCIAL_LINKS = [
+    "https://www.instagram.com/kemut_official23"
+];
