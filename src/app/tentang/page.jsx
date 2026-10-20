@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { SITE_URL, SITE_NAME, EDITOR_IN_CHIEF } from "@/lib/siteConfig";
 
 export const metadata = {
   title: "Tentang Kami",
@@ -41,6 +43,45 @@ export default function TentangPage() {
           Satu Keluarga, Banyak Cerita
         </h1>
 
+        {/* Fakta singkat: kalimat definisi yang jelas & faktual — mudah dibaca mesin
+            pencari dan AI, juga berguna bagi pembaca baru. Tambahkan fakta lain yang
+            BENAR (tahun berdiri, lokasi sekretariat, kontak) langsung di daftar ini. */}
+        <p className="mt-4 text-[16px] leading-relaxed text-brand-ink">
+          <strong>{SITE_NAME}</strong> adalah media informasi dan dokumentasi digital milik komunitas KEMUT yang menjadi sebuah brand
+          pemberitaan yang dikelola oleh redaksi jurnalisme KEMUT News{" "}
+          <Link href={EDITOR_IN_CHIEF.path} className="font-semibold text-brand-primary hover:underline">
+            {EDITOR_IN_CHIEF.name}
+          </Link>{" "}
+          ({EDITOR_IN_CHIEF.role}).
+        </p>
+
+        <dl className="mt-6 grid gap-px bg-brand-outlineVariant/30 text-sm sm:grid-cols-2">
+          <div className="bg-brand-surfaceLowest p-4">
+            <dt className="text-[11px] font-bold uppercase tracking-wide text-brand-secondary">Nama</dt>
+            <dd className="mt-1 font-semibold text-brand-ink">{SITE_NAME}</dd>
+          </div>
+          <div className="bg-brand-surfaceLowest p-4">
+            <dt className="text-[11px] font-bold uppercase tracking-wide text-brand-secondary">Jenis</dt>
+            <dd className="mt-1 font-semibold text-brand-ink">Media informasi &amp; dokumentasi digital komunitas</dd>
+          </div>
+          <div className="bg-brand-surfaceLowest p-4">
+            <dt className="text-[11px] font-bold uppercase tracking-wide text-brand-secondary">{EDITOR_IN_CHIEF.role}</dt>
+            <dd className="mt-1 font-semibold text-brand-ink">{EDITOR_IN_CHIEF.name}</dd>
+          </div>
+          <div className="bg-brand-surfaceLowest p-4">
+            <dt className="text-[11px] font-bold uppercase tracking-wide text-brand-secondary">Situs resmi</dt>
+            <dd className="mt-1 font-semibold text-brand-ink">{SITE_URL.replace(/^https?:\/\//, "")}</dd>
+          </div>
+          <div className="bg-brand-surfaceLowest p-4">
+            <dt className="text-[11px] font-bold uppercase tracking-wide text-brand-secondary">Bahasa</dt>
+            <dd className="mt-1 font-semibold text-brand-ink">Indonesia</dd>
+          </div>
+          <div className="bg-brand-surfaceLowest p-4">
+            <dt className="text-[11px] font-bold uppercase tracking-wide text-brand-secondary">Cakupan liputan</dt>
+            <dd className="mt-1 font-semibold text-brand-ink">Kabar, kegiatan, tokoh, cerita, agenda</dd>
+          </div>
+        </dl>
+
         <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden bg-brand-surfaceContainer">
           <Image
             src="https://rkwuogwvahvrcpeakpdi.supabase.co/storage/v1/object/public/kemutnews-media/covers/1789126957809-1000827486.jpg"
@@ -60,10 +101,7 @@ export default function TentangPage() {
           </p>
 
           <p>
-            Melalui platform ini, kami mendokumentasikan perjalanan keluarga besar KEMUT — mulai
-            dari kabar terbaru, kegiatan sosial, profil tokoh-tokoh yang berjasa, hingga
-            cerita-cerita hangat dari anggota yang membentuk identitas komunitas ini dari waktu
-            ke waktu.
+            Melalui platform ini, kami tidak hanya mendokumentasikan setiap perjalanan komunitas melainkan juga sebagai media pemberitaan umum yang independen, terverifikasi, dan faktual
           </p>
 
           <blockquote>
@@ -74,7 +112,7 @@ export default function TentangPage() {
           <p>
             KEMUTNEWS dikelola secara sukarela oleh anggota komunitas yang peduli terhadap
             dokumentasi dan komunikasi internal keluarga besar KEMUT. Kami terbuka terhadap
-            kontribusi cerita, foto, maupun masukan dari seluruh anggota.
+            kontribusi luar untuk pemberitaan umum.
           </p>
         </div>
       </div>

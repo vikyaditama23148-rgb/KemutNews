@@ -12,6 +12,8 @@ import ViewTracker from "@/components/ViewTracker";
 import LiveViewCount from "@/components/LiveViewCount";
 import ArticleReactions from "@/components/ArticleReactions";
 import ReactMarkdown from "react-markdown";
+import JsonLd from "@/components/JsonLd";
+import { SITE_URL, SITE_NAME, LOGO_URL, SITE_LANGUAGE, EDITOR_IN_CHIEF } from "@/lib/siteConfig";
 
 export async function generateMetadata({ params }) {
   const article = await getArticleBySlug(params.slug);
@@ -53,8 +55,54 @@ export default async function ArticlePage({ params }) {
     getReactionCounts(article.slug),
   ]);
 
+  // Data terstruktur NewsArticle + BreadcrumbList: memberi tahu Google & mesin AI
+  // dengan pasti bahwa ini artikel berita — judul, tanggal terbit, penulis, gambar,
+  // dan penerbitnya — tanpa harus menebak dari teks halaman.
+  const articleUrl = `${SITE_URL}/artikel/${article.slug}`;
+  const authorName = article.author?.name;
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "NewsArticle",
+        "@id": `${articleUrl}#article`,
+        mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+        headline: article.title,
+        description: article.excerpt,
+        inLanguage: SITE_LANGUAGE,
+        datePublished: article.published_at,
+        ...(article.cover_image_url ? { image: [article.cover_image_url] } : {}),
+        ...(article.category?.name ? { articleSection: article.category.name } : {}),
+        author: authorName
+          ? {
+              "@type": "Person",
+              name: authorName,
+              ...(authorName === EDITOR_IN_CHIEF.name ? { url: `${SITE_URL}${EDITOR_IN_CHIEF.path}` } : {}),
+            }
+          : { "@type": "Organization", name: SITE_NAME },
+        publisher: {
+          "@type": "NewsMediaOrganization",
+          "@id": `${SITE_URL}/#organization`,
+          name: SITE_NAME,
+          logo: { "@type": "ImageObject", url: LOGO_URL },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Beranda", item: SITE_URL },
+          ...(article.category
+            ? [{ "@type": "ListItem", position: 2, name: article.category.name, item: `${SITE_URL}/kategori/${article.category.slug}` }]
+            : []),
+          { "@type": "ListItem", position: article.category ? 3 : 2, name: article.title, item: articleUrl },
+        ],
+      },
+    ],
+  };
+
   return (
     <article>
+      <JsonLd data={articleJsonLd} />
       <ViewTracker slug={article.slug} />
       <div className="mx-auto max-w-[1440px] px-4 pt-6 md:px-8">
         {/* Breadcrumb */}
