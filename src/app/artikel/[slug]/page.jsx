@@ -200,31 +200,52 @@ export default async function ArticlePage({ params }) {
                 <ArticleReactions slug={article.slug} initialCounts={reactionCounts} />
               </div>
 
-              {/* Author bio card */}
-              <div className="mt-8 flex items-start gap-4 bg-brand-surfaceLow p-5">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-brand-surfaceContainer">
-                  {article.author?.avatar_url && (
-                    <Image
-                      src={article.author.avatar_url}
-                      alt={article.author.name || "Penulis"}
-                      fill
-                      sizes="56px"
-                      className="object-cover"
-                    />
-                  )}
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-brand-primary">
-                    Ditulis Oleh
-                  </p>
-                  <p className="mt-0.5 font-headline text-base font-bold text-brand-ink">
-                    {article.author?.name || "Redaksi KEMUTNEWS"}
-                  </p>
-                  <p className="text-[13px] text-brand-secondary">
-                    {article.author?.role || "Kontributor KEMUTNEWS"}
-                  </p>
-                </div>
-              </div>
+              {/* Keterangan penulis — ringkas & profesional */}
+              {(() => {
+                const authorName = article.author?.name || "Redaksi KEMUTNEWS";
+                const authorRole = article.author?.role || "Kontributor";
+                const authorHref = authorName === "Viky Aditama" ? "/redaksi/pimpinan-redaksi" : null;
+                const initials = authorName
+                  .split(/\s+/)
+                  .filter(Boolean)
+                  .slice(0, 2)
+                  .map((w) => w[0].toUpperCase())
+                  .join("");
+
+                return (
+                  <div className="mt-8 flex items-center gap-3 border-t border-brand-outlineVariant/40 pt-5">
+                    <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-surfaceContainer text-[13px] font-semibold text-brand-secondary">
+                      {article.author?.avatar_url ? (
+                        <Image
+                          src={article.author.avatar_url}
+                          alt={authorName}
+                          fill
+                          sizes="40px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        initials
+                      )}
+                    </div>
+                    <div className="min-w-0 text-[13px] leading-snug">
+                      <p className="text-brand-secondary">
+                        Ditulis oleh{" "}
+                        {authorHref ? (
+                          <Link
+                            href={authorHref}
+                            className="font-semibold text-brand-ink hover:text-brand-primary hover:underline"
+                          >
+                            {authorName}
+                          </Link>
+                        ) : (
+                          <span className="font-semibold text-brand-ink">{authorName}</span>
+                        )}
+                      </p>
+                      <p className="mt-0.5 text-[12px] text-brand-secondary/80">{authorRole}</p>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Komentar — sengaja di luar wrapper "prose-kemut" supaya
